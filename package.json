@@ -1,7 +1,7 @@
 {
   "name": "purescript-webpack",
   "version": "1.0.0",
-  "description": "PureScript + Webpack starter kit",
+  "description": "PureScript + Halogen + Webpack starter kit",
   "main": "src/index.js",
   "scripts": {
     "dev": "webpack serve --config webpack.dev.config.js --hot --compress --open",
