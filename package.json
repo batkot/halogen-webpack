@@ -4,6 +4,7 @@
   "description": "PureScript + Webpack starter kit",
   "main": "src/index.js",
   "scripts": {
+    "dev": "webpack serve --config webpack.dev.config.js --hot --compress --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -13,7 +14,12 @@
   "author": "Tomasz Batko",
   "license": "MIT",
   "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
     "purescript": "^0.14.5",
-    "spago": "^0.20.3"
+    "purs-loader": "^3.7.2",
+    "spago": "^0.20.3",
+    "webpack": "^5.62.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
   }
 }
