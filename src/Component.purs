@@ -24,7 +24,7 @@ render :: forall m. State -> H.ComponentHTML Unit () m
 render state = 
     HH.div
         [ HP.class_ (HH.ClassName "greet-component") ]
-        [ HH.text state.greeting 
+        [ HH.div_ [ HH.text state.greeting ]
         , HH.img [HP.src state.logoUrl]
-        , HH.text "Purescript Halogen Webpack"
+        , HH.div_ [ HH.text "Purescript Halogen Webpack" ]
         ]
