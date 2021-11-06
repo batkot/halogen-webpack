@@ -1,2 +1,4 @@
-const purs = require('./Main.purs');
-purs.main();
+const appOptions = require('./environment');
+console.log(appOptions);
+const app = require('./Main.purs');
+app.main(appOptions)();

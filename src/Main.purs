@@ -1,30 +1,35 @@
-module Main where
+module Main 
+    ( main ) where
 
 import Prelude
+import Assets
 
+import Component (component)
 import Control.Apply (applySecond)
-import Control.Category (identity)
 import Data.Array (foldl)
-import Data.Maybe (maybe)
+import Data.Maybe (fromMaybe)
 import Effect (Effect)
 import Effect.Class (liftEffect)
 import Halogen.Aff as HA
+import Halogen.VDom.Driver (runUI)
 import Web.DOM.ChildNode as CN
 import Web.DOM.Element as DE
 import Web.DOM.HTMLCollection as HC
-import Web.DOM.Node as Node
 import Web.DOM.ParentNode as PN
-import Web.HTML.HTMLElement (toParentNode, toNode)
+import Web.HTML.HTMLElement (toParentNode)
 
-containerSelector :: PN.QuerySelector
-containerSelector = PN.QuerySelector "#app"
+type AppOptions =
+    { appContainerSelector :: String
+    , baseStaticUrl :: String
+    }
 
-main :: Effect Unit
-main = HA.runHalogenAff do
+main :: AppOptions -> Effect Unit
+main options = HA.runHalogenAff do
     body <- HA.awaitBody
-    appContainer <- maybe body identity <$> HA.selectElement containerSelector
+    appContainer <- fromMaybe body <$> HA.selectElement (PN.QuerySelector options.appContainerSelector)
     liftEffect $ cleanChildren (toParentNode appContainer)
-    liftEffect $ Node.setTextContent "Hello from PureScript" $ toNode appContainer
+    let assets = mkAssets options.baseStaticUrl
+    runUI (component assets "Hello from Halogen") unit appContainer
 
 cleanChildren :: PN.ParentNode -> Effect Unit
 cleanChildren parent = do

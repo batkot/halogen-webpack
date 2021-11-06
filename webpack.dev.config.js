@@ -1,4 +1,4 @@
-const config = require('./app.config');
+const config = require('./build.config');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -42,6 +42,9 @@ module.exports = {
             template: config.indexPath,
             inject: 'body',
             filename: 'index.html'
+        }),
+        new Webpack.DefinePlugin({
+            __APP_CONTAINER_SELECTOR__: "'#app'"
         })
     ],
 

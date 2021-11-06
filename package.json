@@ -1,5 +1,5 @@
 {
-  "name": "purescript-webpack",
+  "name": "halogen-webpack",
   "version": "1.0.0",
   "description": "PureScript + Halogen + Webpack starter kit",
   "main": "src/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/batkot/purescript-webpack"
+    "url": "github.com/batkot/halogen-webpack"
   },
   "author": "Tomasz Batko",
   "license": "MIT",
