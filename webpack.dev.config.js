@@ -2,6 +2,7 @@ const config = require('./build.config');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Webpack = require('webpack');
 
 module.exports = {
@@ -14,6 +15,16 @@ module.exports = {
 
     module: {
         rules: [
+            //Sass
+            {
+                test: /\.s[ac]ss$/i,
+                exclude: config.excludes,
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    'css-loader',
+                    'sass-loader'
+                ]
+            },
             //PureScript
             {
                 test: /\.purs$/,
@@ -38,6 +49,10 @@ module.exports = {
     },
 
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css'
+        }),
         new HtmlWebpackPlugin({
             template: config.indexPath,
             inject: 'body',
