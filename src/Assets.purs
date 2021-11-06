@@ -11,5 +11,5 @@ type BaseStaticUrl = String
 
 mkAssets :: BaseStaticUrl -> Assets
 mkAssets baseUrls = 
-    let imageUrl asset = baseUrls <> "/images/" <> asset
+    let imageUrl asset = baseUrls <> "images/" <> asset
      in { purescriptLogoUrl: imageUrl "purescript-logo.svg" }
