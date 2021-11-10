@@ -3,6 +3,7 @@ module Main
 
 import Prelude
 
+import App (runAppT)
 import Assets (Assets)
 import Component (component)
 import Data.Argonaut (Json, decodeJson, printJsonDecodeError)
@@ -11,7 +12,8 @@ import Data.Foldable (sequence_)
 import Data.Maybe (fromMaybe)
 import Effect (Effect)
 import Effect.Class (liftEffect)
-import Effect.Console (log)
+import Effect.Console as EC
+import Halogen as H
 import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 import Web.DOM.ChildNode as CN
@@ -28,7 +30,7 @@ type AppOptions =
 main :: Json -> Effect Unit
 main optionJson = 
     case decodeJson optionJson of
-        Left errors -> log $ printJsonDecodeError errors
+        Left errors -> EC.log $ printJsonDecodeError errors
         Right options -> runApp options
 
 runApp :: AppOptions -> Effect Unit
@@ -36,7 +38,8 @@ runApp options = HA.runHalogenAff do
     body <- HA.awaitBody
     appContainer <- fromMaybe body <$> HA.selectElement (PN.QuerySelector options.appContainerSelector)
     liftEffect $ removeChildren (toParentNode appContainer)
-    runUI (component options.assets "Hello from Halogen") unit appContainer
+    let c = H.hoist runAppT $ component options.assets "Hello from Halogen"
+    runUI c unit appContainer
 
 removeChildren :: PN.ParentNode -> Effect Unit
 removeChildren parent = do
