@@ -1,7 +1,8 @@
 module Component (component) where
 
 import Prelude
-import Assets
+
+import Assets (Assets)
 
 import Halogen as H
 import Halogen.HTML as HH

@@ -2,13 +2,12 @@ module Main
     ( main ) where
 
 import Prelude
-import Assets (Assets)
 
+import Assets (Assets)
 import Component (component)
-import Control.Apply (applySecond)
 import Data.Argonaut (Json, decodeJson, printJsonDecodeError)
-import Data.Array (foldl)
 import Data.Either (Either(..))
+import Data.Foldable (sequence_)
 import Data.Maybe (fromMaybe)
 import Effect (Effect)
 import Effect.Class (liftEffect)
@@ -36,12 +35,10 @@ runApp :: AppOptions -> Effect Unit
 runApp options = HA.runHalogenAff do
     body <- HA.awaitBody
     appContainer <- fromMaybe body <$> HA.selectElement (PN.QuerySelector options.appContainerSelector)
-    liftEffect $ cleanChildren (toParentNode appContainer)
+    liftEffect $ removeChildren (toParentNode appContainer)
     runUI (component options.assets "Hello from Halogen") unit appContainer
 
-cleanChildren :: PN.ParentNode -> Effect Unit
-cleanChildren parent = do
-    children <- (map DE.toChildNode) <$> (PN.children parent >>= HC.toArray)
-    foldl foo (pure unit) children
-  where
-    foo b a = applySecond b $ CN.remove a
+removeChildren :: PN.ParentNode -> Effect Unit
+removeChildren parent = do
+    children <- PN.children parent >>= HC.toArray
+    sequence_ $ map (DE.toChildNode >>> CN.remove)  children
