@@ -1,7 +1,7 @@
 module Assets
     where
 
-import Data.Monoid ((<>))
+import Prelude
 
 type Assets =
     { purescriptLogoUrl :: String

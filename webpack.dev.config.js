@@ -72,7 +72,8 @@ module.exports = {
             filename: 'index.html'
         }),
         new Webpack.DefinePlugin({
-            __APP_CONTAINER_SELECTOR__: "'#app'"
+            __APP_CONTAINER_SELECTOR__: "'#app'",
+            __ASSETS_BASE_PATH__: `'${config.assetsPath}'`
         })
     ],
 

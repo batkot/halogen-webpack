@@ -4,7 +4,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Webpack = require('webpack');
 
 module.exports = {
@@ -27,6 +26,19 @@ module.exports = {
                     'postcss-loader',
                     'sass-loader'
                 ]
+            },
+            //Images
+            {
+                test: /\.(png|jpg|jpeg|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    }
+                ],
+                type: 'javascript/auto'
             },
             //PureScript
             {
@@ -63,15 +75,8 @@ module.exports = {
             filename: 'index.html'
         }),
         new Webpack.DefinePlugin({
-            __APP_CONTAINER_SELECTOR__: "'#app'"
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.join(__dirname, "src/static/*/*"),
-                  to: path.join(__dirname, config.buildPath),
-                  context: "src/static"
-                }
-            ]
+            __APP_CONTAINER_SELECTOR__: "'#app'",
+            __ASSETS_BASE_PATH__: `'${config.assetsPath}'`
         })
     ]
 }
