@@ -4,8 +4,7 @@ exports.requireAssets = basePath => {
     }
 }
 
-exports.appOptions = {
+exports.environment = {
     appContainerSelector: __APP_CONTAINER_SELECTOR__,
     assetsBasePath: __ASSETS_BASE_PATH__,
-    baseStaticUrl: ''
 }

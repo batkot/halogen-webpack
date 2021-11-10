@@ -1,15 +1,8 @@
 module Assets
     where
 
-import Prelude
+type AssetUrl = String
 
 type Assets =
-    { purescriptLogoUrl :: String
+    { purescriptLogoUrl :: AssetUrl
     }
-
-type BaseStaticUrl = String
-
-mkAssets :: BaseStaticUrl -> Assets
-mkAssets baseUrls = 
-    let imageUrl asset = baseUrls <> "images/" <> asset
-     in { purescriptLogoUrl: imageUrl "purescript-logo.svg" }

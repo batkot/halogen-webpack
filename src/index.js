@@ -1,7 +1,11 @@
 require('./static/style.scss');
 
-const { requireAssets, appOptions } = require('./environment');
-const assets = requireAssets(appOptions.assetsBasePath);
-console.log('Assets:', assets);
+const { requireAssets, environment } = require('./environment');
+const assets = requireAssets(environment.assetsBasePath);
+const options = {
+    appContainerSelector: environment.appContainerSelector,
+    assets: assets
+}
 const app = require('./Main.purs');
-app.main(appOptions)();
+
+app.main(options)();
