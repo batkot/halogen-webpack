@@ -8,10 +8,6 @@ const Webpack = require('webpack');
 module.exports = {
     mode: 'development',
     entry: config.entryPoint,
-//    output: {
- //       path: path.join(__dirname, config.buildPath),
-  //      filename: config.appName
-   // },
 
     module: {
         rules: [
@@ -28,15 +24,7 @@ module.exports = {
             //Images
             {
                 test: /\.(png|jpg|jpeg|gif|svg)$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192
-                        }
-                    }
-                ],
-                type: 'javascript/auto'
+                type: 'asset/resource'
             },
             //PureScript
             {
