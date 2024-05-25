@@ -1,5 +1,6 @@
-module Main 
-    ( main ) where
+module Main
+  ( main
+  ) where
 
 import Prelude
 
@@ -23,25 +24,25 @@ import Web.DOM.ParentNode as PN
 import Web.HTML.HTMLElement (toParentNode)
 
 type AppOptions =
-    { appContainerSelector :: String
-    , assets :: Assets
-    }
+  { appContainerSelector :: String
+  , assets :: Assets
+  }
 
 main :: Json -> Effect Unit
-main optionJson = 
-    case decodeJson optionJson of
-        Left errors -> EC.log $ printJsonDecodeError errors
-        Right options -> runApp options
+main optionJson =
+  case decodeJson optionJson of
+    Left errors -> EC.log $ printJsonDecodeError errors
+    Right options -> runApp options
 
 runApp :: AppOptions -> Effect Unit
 runApp options = HA.runHalogenAff do
-    body <- HA.awaitBody
-    appContainer <- fromMaybe body <$> HA.selectElement (PN.QuerySelector options.appContainerSelector)
-    liftEffect $ removeChildren (toParentNode appContainer)
-    let c = H.hoist runAppT $ component options.assets "Hello from Halogen"
-    runUI c unit appContainer
+  body <- HA.awaitBody
+  appContainer <- fromMaybe body <$> HA.selectElement (PN.QuerySelector options.appContainerSelector)
+  liftEffect $ removeChildren (toParentNode appContainer)
+  let c = H.hoist runAppT $ component options.assets "Hello from Halogen"
+  runUI c unit appContainer
 
 removeChildren :: PN.ParentNode -> Effect Unit
 removeChildren parent = do
-    children <- PN.children parent >>= HC.toArray
-    sequence_ $ map (DE.toChildNode >>> CN.remove)  children
+  children <- PN.children parent >>= HC.toArray
+  sequence_ $ map (DE.toChildNode >>> CN.remove) children
